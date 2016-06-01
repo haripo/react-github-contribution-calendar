@@ -1,0 +1,15 @@
+.calendar {
+    font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif;
+}
+
+.week {
+    font-size: 9px;
+    alignment-baseline: central;
+    fill: #AAA;
+}
+
+.month {
+    font-size: 10px;
+    alignment-baseline: central;
+    fill: #AAA;
+}
