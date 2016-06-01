@@ -8,7 +8,7 @@
     "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": "react github calendar",
+  "keywords": ["react", "github", "calendar"],
   "author": "haripo",
   "license": "MIT",
   "files": [
