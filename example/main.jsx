@@ -11,6 +11,6 @@ var hist = {
 var appElem = document.getElementById('app');
 var last = '2010-02-01';
 
-ReactDOM.render(<Calendar contrib_history={hist} last_day={last} />,
+ReactDOM.render(<Calendar history={hist} last={last} />,
                 appElem);
 
