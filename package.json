@@ -26,11 +26,10 @@
     "babel-preset-react": "^6.5.0",
     "babel-register": "^6.9.0",
     "jsx-loader": "^0.13.2",
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0",
     "webpack": "^1.13.1"
   },
   "dependencies": {
+    "react": "^15.1.0",
     "moment": "^2.13.0"
   }
 }
