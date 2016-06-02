@@ -1,7 +1,7 @@
 module.exports = {
-  entry: './src/calendar.jsx',
+  entry: './main.jsx',
   output: {
-    filename: './lib/index.js'
+    filename: './bundle.js'
   },
   devtool: 'inline-source-map',
   module: {
@@ -10,10 +10,7 @@ module.exports = {
     ]
   },
   resolve: {
+    modulesDirectories: ['../node_modules'],
     extensions: ['', '.js', '.jsx']
-  },
-  externals: {
-    'react': 'react',
-    'react-dom': 'react-dom'
   }
 };

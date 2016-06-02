@@ -1,8 +1,8 @@
-import React, {propTypes} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 
-class GitHubCalendar extends React.Component {
+export default class GitHubCalendar extends React.Component {
   constructor() {
     super();
 
