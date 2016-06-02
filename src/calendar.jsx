@@ -2,6 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 
+const makeThrottle = function(func, interval) {
+  let lastTime = new Date().getTime() - interval;
+  return () => {
+    let now = new Date().getTime();
+    if ((lastTime + interval) <= now) {
+      lastTime = now;
+      func();
+    }
+  };
+};
+
 export default class GitHubCalendar extends React.Component {
   constructor() {
     super();
@@ -17,8 +28,11 @@ export default class GitHubCalendar extends React.Component {
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     this.panel_colors = ['#EEE', '#DDD', '#AAA', '#444'];
 
+    this.resizeHandler = makeThrottle(() => this.updateSize(), 100);
+
     this.state = {
-      width: 54
+      columns: 54,
+      maxWidth: 54
     }
   }
 
@@ -30,7 +44,7 @@ export default class GitHubCalendar extends React.Component {
     };
   }
 
-  makeCalendarData(history, last_day, width) {
+  makeCalendarData(history, last_day, columns) {
     var last_weekend = new Date(last_day);
     last_weekend.setDate(last_weekend.getDate() + (6 - last_weekend.getDay()));
 
@@ -39,11 +53,11 @@ export default class GitHubCalendar extends React.Component {
     _end_date.subtract(1, 'milliseconds');
 
     var result = [];
-    for (var i = 0; i < width; i++) {
+    for (var i = 0; i < columns; i++) {
       result[i] = [];
       for (var j = 0; j < 7; j++) {
         var date = new Date(last_weekend);
-        date.setDate(date.getDate() - ((width - i - 1) * 7 + (6 - j)));
+        date.setDate(date.getDate() - ((columns - i - 1) * 7 + (6 - j)));
 
         var moment_date = moment(date);
         if (moment_date < _end_date) {
@@ -61,15 +75,24 @@ export default class GitHubCalendar extends React.Component {
     return result;
   }
 
+  componentDidMount() {
+    window.addEventListener("resize", this.resizeHandler);
+    this.updateSize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.resizeHandler);
+  }
+
   render() {
-    var width = this.state.width;
+    var columns = this.state.columns;
     var contrib_history = this.props.contrib_history;
     var contributions = this.makeCalendarData(
-      contrib_history, this.props.last_day, width);
+      contrib_history, this.props.last_day, columns);
     var inner_dom = [];
 
     // panels
-    for (var i = 0; i < width; i++) {
+    for (var i = 0; i < columns; i++) {
       for (var j = 0; j < 7; j++) {
         var contribution = contributions[i][j];
         if (contribution === null) continue;
@@ -101,7 +124,7 @@ export default class GitHubCalendar extends React.Component {
 
     // month texts
     var prev_month = -1;
-    for (var i = 0; i < width; i++) {
+    for (var i = 0; i < columns; i++) {
       if (contributions[i][0] === null) continue;
       var month = contributions[i][0].date.getMonth();
       if (month != prev_month) {
@@ -118,7 +141,7 @@ export default class GitHubCalendar extends React.Component {
     }
 
     return (
-      <div ref="calendarContainer">
+      <div ref="calendarContainer" className="calendar-wrapper">
         <svg className="calendar" width="721" height="110">
           {inner_dom}
         </svg>
@@ -127,9 +150,10 @@ export default class GitHubCalendar extends React.Component {
   }
 
   updateSize() {
-    var width = this.refs.calendarContainer.getDOMNode().offsetWidth;
+    var width = this.refs.calendarContainer.offsetWidth;
+    var visibleWeeks = Math.floor((width - this.margin_left * 2) / 13);
     this.setState({
-      width: Math.floor((width - 30) / 13)
+      columns: Math.min(visibleWeeks, this.state.maxWidth)
     });
   }
 };

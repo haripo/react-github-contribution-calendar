@@ -2,6 +2,10 @@
     font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif;
 }
 
+.calendar-wrapper {
+    width: 100%;
+}
+
 .week {
     font-size: 9px;
     alignment-baseline: central;
