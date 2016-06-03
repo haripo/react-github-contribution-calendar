@@ -3,14 +3,33 @@ import ReactDOM from 'react-dom';
 import Calendar from './../lib/calendar.js';
 /* import Calendar from 'react-github-contribution-calendar'; */
 
-var hist = {
-  '2010-01-02': 3,
-  '2010-01-01': 2
-}
+(() => {
+  var hist = {
+    '2016-06-23': 1,
+    '2016-06-26': 2,
+    '2016-06-27': 3,
+    '2016-06-28': 4,
+    '2016-06-29': 4
+  }
+  var last = '2016-06-30';
 
-var appElem = document.getElementById('app');
-var last = '2010-02-01';
+  var elem = document.getElementById('app');
+  ReactDOM.render(<Calendar history={hist} last={last} />,
+                  elem);
+})();
 
-ReactDOM.render(<Calendar history={hist} last={last} />,
-                appElem);
 
+(() => {
+  var hist = {
+    '2016-06-23': 1,
+    '2016-06-26': 2,
+    '2016-06-27': 3,
+    '2016-06-28': 4,
+    '2016-06-29': 4
+  }
+  var last = '2016-06-30';
+
+  var elem = document.getElementById('example1');
+  ReactDOM.render(<Calendar history={hist} last={last} />,
+                  elem);
+})();

@@ -1,5 +1,69 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,900);
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Lato', helvetica, sans-serif;
+}
+
+header {
+    color: #F6F6F6;
+    background-color: #004A55;
+    text-align: center;
+
+    width: 100%;
+    box-sizing: border-box;
+    padding: 100px;
+}
+
+section {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.header-sample {
+    display: inline-block;
+    margin: 50px;
+    padding: 10px;
+    background-color: #F6F6F6;
+    border-radius: 10px;
+    resize: both;
+    overflow: auto;
+}
+
+h1 {
+    font-weight: 900;
+}
+
+h2 {
+    text-align: center;
+    color: #004A55;
+    text-transform: uppercase;
+    line-height: 100px;
+}
+
+.example {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.example > .code {
+    width: 400px;
+    padding: 20px;
+}
+
+.example > .render {
+    width: 400px;
+    padding: 20px;
+}
+
 .calendar {
     font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif;
+    width: 100%;
 }
 
 .calendar-wrapper {

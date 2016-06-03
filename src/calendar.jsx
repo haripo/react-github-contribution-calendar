@@ -31,8 +31,8 @@ export default class GitHubCalendar extends React.Component {
     this.resizeHandler = makeThrottle(() => this.updateSize(), 100);
 
     this.state = {
-      columns: 54,
-      maxWidth: 54
+      columns: 53,
+      maxWidth: 53
     }
   }
 
@@ -142,7 +142,7 @@ export default class GitHubCalendar extends React.Component {
 
     return (
       <div ref="calendarContainer" className="calendar-wrapper">
-        <svg className="calendar" width="721" height="110">
+        <svg className="calendar" height="110">
           {innerDom}
         </svg>
       </div>
@@ -151,7 +151,7 @@ export default class GitHubCalendar extends React.Component {
 
   updateSize() {
     var width = this.refs.calendarContainer.offsetWidth;
-    var visibleWeeks = Math.floor((width - this.weekLabelWidth * 2) / 13);
+    var visibleWeeks = Math.floor((width - this.weekLabelWidth) / 13);
     this.setState({
       columns: Math.min(visibleWeeks, this.state.maxWidth)
     });
