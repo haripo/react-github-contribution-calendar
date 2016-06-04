@@ -79,10 +79,11 @@ export default class GitHubCalendar extends React.Component {
   }
 
   render() {
-    var columns = this.state.columns;
-    var contribHistory = this.props.history;
-    var contributions = this.makeCalendarData(
-      contribHistory, this.props.last, columns);
+    const columns = this.state.columns;
+    const values = this.props.values;
+    const until = this.props.until;
+
+    var contributions = this.makeCalendarData(values, until, columns);
     var innerDom = [];
 
     // panels
@@ -153,6 +154,6 @@ export default class GitHubCalendar extends React.Component {
 };
 
 GitHubCalendar.propTypes = {
-  history: React.PropTypes.object,
-  last: React.PropTypes.string,
+  values: React.PropTypes.object.isRequired,
+  until: React.PropTypes.string.isRequired
 };
