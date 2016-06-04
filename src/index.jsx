@@ -12,12 +12,6 @@ export default class GitHubCalendar extends React.Component {
     this.panelSize = 11;
     this.panelMargin = 2;
 
-    this.weekNames = ['', 'M', '', 'W', '', 'F', ''];
-    this.monthNames = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    this.panelColors = ['#EEE', '#DDD', '#AAA', '#444'];
-
     // handle resize
     this.elementResizeDetector = elementResizeDetectorMaker({ strategy: "scroll" });
     this.resizeHandler = () => this.updateSize();
@@ -92,7 +86,7 @@ export default class GitHubCalendar extends React.Component {
         var contribution = contributions[i][j];
         if (contribution === null) continue;
         var pos = this.getPanelPosition(i, j);
-        var color = this.panelColors[contribution.value];
+        var color = this.props.panelColors[contribution.value];
 
         innerDom.push(React.DOM.rect({
           key: 'panel_key_' + i + '_' + j,
@@ -106,7 +100,7 @@ export default class GitHubCalendar extends React.Component {
     }
 
     // week texts
-    for (var i = 0; i < this.weekNames.length; i++) {
+    for (var i = 0; i < this.props.weekNames.length; i++) {
       var textBasePos = this.getPanelPosition(0, i);
       innerDom.push(React.DOM.text({
         key: 'week_key_' + i,
@@ -114,7 +108,7 @@ export default class GitHubCalendar extends React.Component {
         x: textBasePos.x - this.panelSize / 2 - 2,
         y: textBasePos.y + this.panelSize / 2,
         textAnchor: 'middle'
-      }, this.weekNames[i]));
+      }, this.props.weekNames[i]));
     }
 
     // month texts
@@ -130,7 +124,7 @@ export default class GitHubCalendar extends React.Component {
           x: textBasePos.x + this.panelSize / 2,
           y: textBasePos.y - this.panelSize / 2 - 2,
           textAnchor: 'middle'
-        }, this.monthNames[month]));
+        }, this.props.monthNames[month]));
       }
       prevMonth = month;
     }
@@ -155,5 +149,19 @@ export default class GitHubCalendar extends React.Component {
 
 GitHubCalendar.propTypes = {
   values: React.PropTypes.object.isRequired,
-  until: React.PropTypes.string.isRequired
+  until: React.PropTypes.string.isRequired,
+  weekNames: React.PropTypes.array,
+  monthNames: React.PropTypes.array,
+  panelColors: React.PropTypes.array
 };
+
+GitHubCalendar.defaultProps = {
+  weekNames: ['', 'M', '', 'W', '', 'F', ''],
+  monthNames: [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ],
+  panelColors: ['#EEE', '#DDD', '#AAA', '#444']
+};
+
+

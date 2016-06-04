@@ -31,20 +31,46 @@
         <div class="code">
           <pre>
             <code>
-  var hist = {
+  var values = {
     '2016-06-23': 1,
     '2016-06-26': 2,
     '2016-06-27': 3,
     '2016-06-28': 4,
     '2016-06-29': 4
   }
-  var last = '2016-06-30';
-  render(&lt;Calendar history={hist} last={last} /&gt;);
+  var until = '2016-06-30';
+  render(&lt;Calendar values={values} until={until} /&gt;);
             </code>
           </pre>
         </div>
         <div class="render">
           <div id="example1"></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <h2>customizing</h2>
+      <h3>change label texts</h3>
+      <div class="example">
+        <div class="code">
+          <pre>
+            <code>
+  var values = {}
+  var until = '2016-12-30';
+  var weekNames = ['s', 'm', 't', 'w', 't', 'f', 's'];
+  var monthNames = [
+    '1', '2', '3', '4', '5', '6',
+    '7', '8', '9', '10', '11', '12'
+  ];
+
+  render(&lt;Calendar
+    values={values} until={until}
+    weekNames={weekNames} monthNames={monthNames}/&gt;, elem);
+            </code>
+          </pre>
+        </div>
+        <div class="render">
+          <div id="example2"></div>
         </div>
       </div>
     </section>
