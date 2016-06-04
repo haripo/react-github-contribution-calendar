@@ -16,22 +16,12 @@ header {
 
     width: 100%;
     box-sizing: border-box;
-    padding: 100px;
+    padding: 100px 0;
 }
 
 section {
-    width: 800px;
+    max-width: 800px;
     margin: 0 auto;
-}
-
-.header-sample {
-    display: inline-block;
-    margin: 50px;
-    padding: 10px;
-    background-color: #F6F6F6;
-    border-radius: 10px;
-    resize: both;
-    overflow: auto;
 }
 
 h1 {
@@ -44,6 +34,39 @@ h2 {
     text-transform: uppercase;
     line-height: 100px;
 }
+
+/* header */
+
+.header-sample {
+    display: inline-block;
+    margin: 50px 0;
+    padding: 10px;
+    background-color: #F6F6F6;
+    border-radius: 10px 10px 0 10px;
+
+    width: 500px;
+    min-width: 10px;
+    max-width: 706px;
+}
+
+@media screen and (max-width: 800px) {
+    .header-sample {
+        max-width: 300px;
+    }
+}
+
+.is-resizable {
+    resize: horizontal;
+    overflow: auto;
+}
+
+.draghere {
+    color: #004A55;
+    text-align: right;
+    font-size: 12px;
+}
+
+/* article */
 
 .example {
     display: flex;

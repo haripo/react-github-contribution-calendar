@@ -1,17 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
-
-const makeThrottle = function(func, interval) {
-  let lastTime = new Date().getTime() - interval;
-  return () => {
-    let now = new Date().getTime();
-    if ((lastTime + interval) <= now) {
-      lastTime = now;
-      func();
-    }
-  };
-};
+import elementResizeDetectorMaker from "element-resize-detector";
 
 export default class GitHubCalendar extends React.Component {
   constructor() {
@@ -28,7 +18,9 @@ export default class GitHubCalendar extends React.Component {
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     this.panelColors = ['#EEE', '#DDD', '#AAA', '#444'];
 
-    this.resizeHandler = makeThrottle(() => this.updateSize(), 100);
+    // handle resize
+    this.elementResizeDetector = elementResizeDetectorMaker({ strategy: "scroll" });
+    this.resizeHandler = () => this.updateSize();
 
     this.state = {
       columns: 53,
@@ -76,12 +68,14 @@ export default class GitHubCalendar extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener("resize", this.resizeHandler);
+    this.elementResizeDetector.listenTo(
+      this.refs.calendarContainer,
+      this.resizeHandler);
     this.updateSize();
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.resizeHandler);
+    this.elementResizeDetector.uninstall(this.refs.calendarContainer);
   }
 
   render() {

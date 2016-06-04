@@ -29,7 +29,8 @@
     "webpack": "^1.13.1"
   },
   "dependencies": {
-    "react": "^15.1.0",
-    "moment": "^2.13.0"
+    "element-resize-detector": "^1.1.2",
+    "moment": "^2.13.0",
+    "react": "^15.1.0"
   }
 }
