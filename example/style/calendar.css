@@ -75,10 +75,9 @@ h2 {
 
 .example > .code {
     width: 400px;
-    padding: 20px;
+    margin-right: 20px;
 }
 
 .example > .render {
     width: 400px;
-    padding: 20px;
 }

@@ -18,7 +18,7 @@
     </header>
     <section>
       <h2>getting started</h2>
-      <h3>install</h3>
+      <h3>Install</h3>
       <p>
         <pre>
           <code>
@@ -26,11 +26,22 @@
           </code>
         </pre>
       </p>
-      <h3>render</h3>
-      <div class="example">
-        <div class="code">
-          <pre>
-            <code>
+      <h3>Load styles</h3>
+      <p>
+        <pre>
+          <code>
+  &lt;link rel="stylesheet" href="node_modules/react-github-contribution-calendar/lib/default.css" type="text/css" /&gt;
+          </code>
+        </pre>
+      </p>
+      <h3>Render</h3>
+      <p>
+        <pre>
+          <code>
+  import React from 'react';
+  import ReactDOM from 'react-dom';
+  import Calendar from 'react-github-contribution-calendar';
+
   var values = {
     '2016-06-23': 1,
     '2016-06-26': 2,
@@ -39,18 +50,16 @@
     '2016-06-29': 4
   }
   var until = '2016-06-30';
-  render(&lt;Calendar values={values} until={until} /&gt;);
-            </code>
-          </pre>
-        </div>
-        <div class="render">
-          <div id="example1"></div>
-        </div>
-      </div>
+
+  var elem = document.getElementById('app');
+  ReactDOM.render(&lt;Calendar values={values} until={until} /&gt;, elem);
+          </code>
+        </pre>
+      </p>
     </section>
     <section>
       <h2>customizing</h2>
-      <h3>change label texts</h3>
+      <h3>Change label texts</h3>
       <div class="example">
         <div class="code">
           <pre>
