@@ -59,6 +59,40 @@
     </section>
     <section>
       <h2>customizing</h2>
+      <h3>Change panel colors</h3>
+      <div class="example">
+        <div class="code">
+          <pre>
+            <code>
+  var values = {}
+  var until = '2016-06-30';
+  var values = {
+    '2016-06-23': 1,
+    '2016-06-26': 2,
+    '2016-06-27': 3,
+    '2016-06-28': 4,
+    '2016-06-29': 4
+  };
+  var panelColors = [
+    '#EEEEEE',
+    '#F78A23',
+    '#F87D09',
+    '#AC5808',
+    '#7B3F06'
+  ];
+
+  var elem = document.getElementById('example1');
+  ReactDOM.render(&lt;Calendar
+    values={values} until={until}
+    weekNames={weekNames} monthNames={monthNames}/&gt;, elem);
+            </code>
+          </pre>
+        </div>
+        <div class="render">
+          <div id="example1"></div>
+        </div>
+      </div>
+
       <h3>Change label texts</h3>
       <div class="example">
         <div class="code">
@@ -72,7 +106,7 @@
     '7', '8', '9', '10', '11', '12'
   ];
 
-  render(&lt;Calendar
+  ReactDOM.render(&lt;Calendar
     values={values} until={until}
     weekNames={weekNames} monthNames={monthNames}/&gt;, elem);
             </code>

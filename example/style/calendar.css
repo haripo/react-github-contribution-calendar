@@ -69,7 +69,6 @@ h2 {
 /* article */
 .example {
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 

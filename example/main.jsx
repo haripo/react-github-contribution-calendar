@@ -20,6 +20,23 @@ import Calendar from './../lib/index.js';
 
 (() => {
   var values = {}
+  var until = '2016-06-30';
+  var values = {
+    '2016-06-23': 1,
+    '2016-06-26': 2,
+    '2016-06-27': 3,
+    '2016-06-28': 4,
+    '2016-06-29': 4
+  };
+  var panelColors = ['#EEEEEE', '#F78A23', '#F87D09', '#AC5808', '#7B3F06'];
+
+  var elem = document.getElementById('example1');
+  ReactDOM.render(<Calendar values={values} until={until}
+                            panelColors={panelColors}/>, elem);
+})();
+
+(() => {
+  var values = {}
   var until = '2016-12-30';
   var weekNames = ['s', 'm', 't', 'w', 't', 'f', 's'];
   var monthNames = [
@@ -29,6 +46,6 @@ import Calendar from './../lib/index.js';
 
   var elem = document.getElementById('example2');
   ReactDOM.render(<Calendar values={values} until={until}
-                  weekNames={weekNames} monthNames={monthNames}/>, elem);
+                            weekNames={weekNames} monthNames={monthNames}/>, elem);
 })();
-//panelColors: ['#EEE', '#DDD', '#AAA', '#444']
+
