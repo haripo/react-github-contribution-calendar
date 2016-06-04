@@ -24,6 +24,24 @@ section {
     margin: 0 auto;
 }
 
+footer {
+    color: #F6F6F6;
+    background-color: #004A55;
+    text-align: center;
+
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px 0;
+}
+
+footer a {
+    color: #F6F6F6;
+}
+
+footer a:hover {
+    color: #F6F6F6;
+}
+
 h1 {
     font-weight: 900;
 }
