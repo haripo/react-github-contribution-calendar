@@ -13,7 +13,7 @@ A react component for GitHub-like heatmap calendar
 <html>
   <head>
     <!-- load styles! -->
-    <link rel="stylesheet" href="node_modules/react-github-contribution-calendar/lib/default.css" type="text/css" />
+    <link rel="stylesheet" href="node_modules/react-github-contribution-calendar/default.css" type="text/css" />
   </head>
   <body>
     <div id="calendar"></div>
