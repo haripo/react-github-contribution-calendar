@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {propTypes} from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 import elementResizeDetectorMaker from "element-resize-detector";
@@ -152,3 +152,7 @@ export default class GitHubCalendar extends React.Component {
   }
 };
 
+GitHubCalendar.propTypes = {
+  history: React.PropTypes.object,
+  last: React.PropTypes.string,
+};
