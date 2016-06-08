@@ -1,7 +1,7 @@
 react-github-contribution-calendar
 ====
 
-A react component for GitHub-like heatmap calendar
+A responsive react component for GitHub-like heatmap calendar
 
 ## Demo
 
@@ -9,7 +9,7 @@ A react component for GitHub-like heatmap calendar
 
 ## Usage
 
-```
+``` html
 <html>
   <head>
     <!-- load styles! -->
@@ -22,7 +22,7 @@ A react component for GitHub-like heatmap calendar
 </html>
 ```
 
-```
+``` javascript
 // main.jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
