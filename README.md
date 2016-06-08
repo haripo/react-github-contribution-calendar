@@ -1,6 +1,8 @@
 react-github-contribution-calendar
 ====
 
+[![npm version](https://badge.fury.io/js/react-github-contribution-calendar.svg)](https://badge.fury.io/js/react-github-contribution-calendar)
+
 A responsive react component for GitHub-like heatmap calendar
 
 ## Demo
