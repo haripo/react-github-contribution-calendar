@@ -4,17 +4,19 @@ import Calendar from './../lib/index.js';
 /* import Calendar from 'react-github-contribution-calendar'; */
 
 (() => {
-  var values = {
-    '2016-06-23': 1,
-    '2016-06-26': 2,
-    '2016-06-27': 3,
-    '2016-06-28': 4,
-    '2016-06-29': 4
+  var values = {};
+  var pad = (v) => (v < 10 ? '0' + v : v)
+  for (var i = 1; i <= 12; i++) {
+    for (var j = 1; j <= 31; j++) {
+      values['2016-' + pad(i) + '-' + pad(j)] = Math.floor(Math.random() * 5);
+    }
   }
-  var until = '2016-06-30';
+  var until = '2016-12-31';
+  var panelColors = ['#EEEEEE', '#D6E685', '#8CC665', '#44A340', '#1E6823'];
 
   var elem = document.getElementById('app');
-  ReactDOM.render(<Calendar values={values} until={until} />, elem);
+  ReactDOM.render(<Calendar values={values} until={until} panelColors={panelColors}/>,
+                  elem);
 })();
 
 
