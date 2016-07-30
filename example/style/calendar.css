@@ -11,7 +11,7 @@ body {
 
 header {
     color: #F6F6F6;
-    background-color: #004A55;
+    background-color: #1E6823;
     text-align: center;
 
     width: 100%;
@@ -26,7 +26,7 @@ section {
 
 footer {
     color: #F6F6F6;
-    background-color: #004A55;
+    background-color: #1E6823;
     text-align: center;
 
     width: 100%;
@@ -48,7 +48,7 @@ h1 {
 
 h2 {
     text-align: center;
-    color: #004A55;
+    color: #1E6823;
     text-transform: uppercase;
     line-height: 100px;
 }
@@ -79,7 +79,7 @@ h2 {
 }
 
 .draghere {
-    color: #004A55;
+    color: #1E6823;
     text-align: right;
     font-size: 12px;
 }
