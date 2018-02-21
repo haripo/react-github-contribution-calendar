@@ -5,7 +5,7 @@
   "main": "./lib/index.js",
   "scripts": {
     "build": "$(npm bin)/babel src -d lib && cd example && webpack",
-    "watch": "$(npm bin)/babel src -d lib -w & (cd example && webpack -w &)"
+    "watch": "$(npm bin)/babel src -d lib -w & cd example && webpack -w"
   },
   "keywords": [
     "react",
@@ -32,6 +32,7 @@
   "dependencies": {
     "element-resize-detector": "^1.1.2",
     "moment": "^2.13.0",
-    "react": "^15.1.0"
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   }
 }

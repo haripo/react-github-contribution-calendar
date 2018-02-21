@@ -50,4 +50,3 @@ import Calendar from './../lib/index.js';
   ReactDOM.render(<Calendar values={values} until={until}
                             weekNames={weekNames} monthNames={monthNames}/>, elem);
 })();
-

@@ -1,4 +1,4 @@
-import React, {propTypes} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 import elementResizeDetectorMaker from "element-resize-detector";
@@ -85,30 +85,36 @@ export default class GitHubCalendar extends React.Component {
       for (var j = 0; j < 7; j++) {
         var contribution = contributions[i][j];
         if (contribution === null) continue;
-        var pos = this.getPanelPosition(i, j);
-        var color = this.props.panelColors[contribution.value];
-
-        innerDom.push(React.DOM.rect({
-          key: 'panel_key_' + i + '_' + j,
-          x: pos.x,
-          y: pos.y,
-          width: this.panelSize,
-          height: this.panelSize,
-          fill: color
-        }, null));
+        const pos = this.getPanelPosition(i, j);
+        const color = this.props.panelColors[contribution.value];
+        const dom = (
+          <rect
+            key={ 'panel_key_' + i + '_' + j }
+            x={ pos.x}
+            y={ pos.y }
+            width={ this.panelSize }
+            height={ this.panelSize }
+            fill={ color }
+          />
+        );
+        innerDom.push(dom);
       }
     }
 
     // week texts
     for (var i = 0; i < this.props.weekNames.length; i++) {
-      var textBasePos = this.getPanelPosition(0, i);
-      innerDom.push(React.DOM.text({
-        key: 'week_key_' + i,
-        className: 'week',
-        x: textBasePos.x - this.panelSize / 2 - 2,
-        y: textBasePos.y + this.panelSize / 2,
-        textAnchor: 'middle'
-      }, this.props.weekNames[i]));
+      const textBasePos = this.getPanelPosition(0, i);
+      const dom = (
+        <text
+          key={ 'week_key_' + i }
+          className='week'
+          x={ textBasePos.x - this.panelSize / 2 - 2 }
+          y={ textBasePos.y + this.panelSize / 2 }
+          textAnchor={ 'middle' }>
+          { this.props.weekNames[i] }
+        </text>
+      );
+      innerDom.push(dom);
     }
 
     // month texts
@@ -118,13 +124,15 @@ export default class GitHubCalendar extends React.Component {
       var month = contributions[i][0].date.getMonth();
       if (month != prevMonth) {
         var textBasePos = this.getPanelPosition(i, 0);
-        innerDom.push(React.DOM.text({
-          key: 'month_key_' + i,
-          className: 'month',
-          x: textBasePos.x + this.panelSize / 2,
-          y: textBasePos.y - this.panelSize / 2 - 2,
-          textAnchor: 'middle'
-        }, this.props.monthNames[month]));
+        innerDom.push(<text
+          key={ 'month_key_' + i }
+          className='month'
+          x={ textBasePos.x + this.panelSize / 2 }
+          y={ textBasePos.y - this.panelSize / 2 - 2 }
+          textAnchor={ 'middle' }>
+          { this.props.monthNames[month] }
+          </text>
+        );
       }
       prevMonth = month;
     }
@@ -147,14 +155,6 @@ export default class GitHubCalendar extends React.Component {
   }
 };
 
-GitHubCalendar.propTypes = {
-  values: React.PropTypes.object.isRequired,
-  until: React.PropTypes.string.isRequired,
-  weekNames: React.PropTypes.array,
-  monthNames: React.PropTypes.array,
-  panelColors: React.PropTypes.array
-};
-
 GitHubCalendar.defaultProps = {
   weekNames: ['', 'M', '', 'W', '', 'F', ''],
   monthNames: [
@@ -163,5 +163,3 @@ GitHubCalendar.defaultProps = {
   ],
   panelColors: ['#EEE', '#DDD', '#AAA', '#444']
 };
-
-
