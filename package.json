@@ -1,6 +1,6 @@
 {
   "name": "react-github-contribution-calendar",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "React component for github-like calendar",
   "main": "./lib/index.js",
   "scripts": {
