@@ -7,7 +7,7 @@ A responsive react component for GitHub-like heatmap calendar
 
 ## Demo
 
-[Demo and documents](http://haripo.github.io/react-github-contribution-calendar/example/)
+[Demo and documents](http://haripo.github.io/react-github-contribution-calendar/)
 
 ## Usage
 
