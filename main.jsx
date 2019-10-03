@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Calendar from './lib/index.js';
+import Calendar from './../lib/index.js';
 /* import Calendar from 'react-github-contribution-calendar'; */
 
 (() => {
