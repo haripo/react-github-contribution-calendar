@@ -11,19 +11,6 @@ A responsive react component for GitHub-like heatmap calendar
 
 ## Usage
 
-``` html
-<html>
-  <head>
-    <!-- load styles! -->
-    <link rel="stylesheet" href="node_modules/react-github-contribution-calendar/default.css" type="text/css" />
-  </head>
-  <body>
-    <div id="calendar"></div>
-  </body>
-  <script src="main.js"></script>
-</html>
-```
-
 ``` javascript
 // main.jsx
 import React from 'react';

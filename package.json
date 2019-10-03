@@ -17,8 +17,7 @@
   "author": "haripo",
   "license": "MIT",
   "files": [
-    "lib",
-    "default.css"
+    "lib"
   ],
   "devDependencies": {
     "@babel/core": "^7.6.2",

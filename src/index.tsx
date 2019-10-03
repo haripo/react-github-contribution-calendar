@@ -118,7 +118,7 @@ export default class GitHubCalendar extends React.Component<Props, State> {
         const dom = (
           <rect
             key={ 'panel_key_' + i + '_' + j }
-            x={ pos.x}
+            x={ pos.x }
             y={ pos.y }
             width={ this.panelSize }
             height={ this.panelSize }
@@ -135,7 +135,11 @@ export default class GitHubCalendar extends React.Component<Props, State> {
       const dom = (
         <text
           key={ 'week_key_' + i }
-          className='week'
+          style={{
+            fontSize: 9,
+            alignmentBaseline: 'central',
+            fill: '#AAA'
+          }}
           x={ textBasePos.x - this.panelSize / 2 - 2 }
           y={ textBasePos.y + this.panelSize / 2 }
           textAnchor={ 'middle' }>
@@ -154,12 +158,16 @@ export default class GitHubCalendar extends React.Component<Props, State> {
       if (month != prevMonth) {
         var textBasePos = this.getPanelPosition(i, 0);
         innerDom.push(<text
-          key={ 'month_key_' + i }
-          className='month'
-          x={ textBasePos.x + this.panelSize / 2 }
-          y={ textBasePos.y - this.panelSize / 2 - 2 }
-          textAnchor={ 'middle' }>
-          { this.props.monthNames[month] }
+            key={ 'month_key_' + i }
+            style={{
+              fontSize: 10,
+              alignmentBaseline: 'central',
+              fill: '#AAA'
+            }}
+            x={ textBasePos.x + this.panelSize / 2 }
+            y={ textBasePos.y - this.panelSize / 2 - 2 }
+            textAnchor={ 'middle' }>
+            { this.props.monthNames[month] }
           </text>
         );
       }
@@ -167,9 +175,14 @@ export default class GitHubCalendar extends React.Component<Props, State> {
     }
 
     return (
-      <div ref="calendarContainer" className="calendar-wrapper">
-        <svg className="calendar" height="110">
-          {innerDom}
+      <div ref="calendarContainer" style={ { width: "100%" } }>
+        <svg
+          style={ {
+            fontFamily: 'Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif',
+            width: '100%'
+          } }
+          height="110">
+          { innerDom }
         </svg>
       </div>
     );
