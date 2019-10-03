@@ -4,8 +4,10 @@
   "description": "React component for github-like calendar",
   "main": "./lib/index.js",
   "scripts": {
-    "build": "$(npm bin)/babel src -d lib && cd example && webpack",
-    "watch": "$(npm bin)/babel src -d lib -w & cd example && webpack -w"
+    "build": "npm run lib:build && npm run example:build",
+    "lib:build": "babel src -d lib",
+    "example:build": "cd example && webpack",
+    "example:watch": "cd example && webpack -w"
   },
   "keywords": [
     "react",
