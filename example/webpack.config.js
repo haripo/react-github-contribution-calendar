@@ -5,12 +5,22 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   module: {
-    loaders: [
-      { test: /\.jsx$/, loader: 'babel-loader' }
+    rules: [
+      {
+        test: /\.jsx$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env', '@babel/preset-react']
+            }
+          }
+        ]
+      }
     ]
   },
   resolve: {
-    modulesDirectories: ['../node_modules'],
-    extensions: ['', '.js', '.jsx']
+    modules: ['../node_modules'],
+    extensions: ['.js', '.jsx']
   }
 };
