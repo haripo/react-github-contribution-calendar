@@ -5,7 +5,7 @@
   "main": "./lib/index.js",
   "scripts": {
     "build": "npm run lib:build && npm run example:build",
-    "lib:build": "babel src -d lib",
+    "lib:build": "tsc -p .",
     "example:build": "cd example && webpack",
     "example:watch": "cd example && webpack -w"
   },
@@ -21,6 +21,7 @@
     "default.css"
   ],
   "devDependencies": {
+    "@types/react": "^16.9.4",
     "babel": "^6.5.2",
     "babel-cli": "^6.9.0",
     "babel-core": "^6.9.0",
@@ -29,6 +30,9 @@
     "babel-preset-react": "^6.5.0",
     "babel-register": "^6.9.0",
     "jsx-loader": "^0.13.2",
+    "react": "^16.10.1",
+    "react-dom": "^16.10.1",
+    "typescript": "^3.6.3",
     "webpack": "^1.13.1"
   },
   "dependencies": {
@@ -37,5 +41,5 @@
   },
   "peerDependencies": {
     "react": "^16"
-
+  }
 }
