@@ -1,0 +1,32 @@
+name: Build gh-pages
+
+on:
+  push:
+    branches:
+      - master
+      - fix-builds
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup nodejs
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Npm install and build
+        run: |
+          npm install
+          npm run build
+        env:
+          CI: true
+      - name: Deploy action for GitHub Pages
+        uses: peaceiris/actions-gh-pages@v2.4.0
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./example
+        with:
+          emptyCommits: false
+          keepFiles: false

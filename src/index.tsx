@@ -1,11 +1,38 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import moment from 'moment';
+
+// @ts-ignore
 import elementResizeDetectorMaker from "element-resize-detector";
 
-export default class GitHubCalendar extends React.Component {
-  constructor() {
-    super();
+interface Props {
+  weekNames: string[]
+  monthNames: string[]
+  panelColors: string[]
+  values: { [date: string]: number }
+  until: string
+}
+
+interface State {
+  columns: number
+  maxWidth: number
+}
+
+export default class GitHubCalendar extends React.Component<Props, State> {
+  monthLabelHeight: number;
+  weekLabelWidth: number;
+  panelSize: number;
+  panelMargin: number;
+
+  elementResizeDetector: any;
+  resizeHandler: any;
+
+  // static state = {
+  //   columns: 53,
+  //   maxWidth: 53
+  // };
+
+  constructor(props: any) {
+    super(props);
 
     this.monthLabelHeight = 15;
     this.weekLabelWidth = 15;
@@ -22,15 +49,15 @@ export default class GitHubCalendar extends React.Component {
     }
   }
 
-  getPanelPosition(row, col) {
-    var bounds = this.panelSize + this.panelMargin;
+  getPanelPosition(row: number, col: number) {
+    const bounds = this.panelSize + this.panelMargin;
     return {
       x: this.weekLabelWidth + bounds * row,
       y: this.monthLabelHeight + bounds * col
     };
   }
 
-  makeCalendarData(history, lastDay, columns) {
+  makeCalendarData(history: { [k: string]: number }, lastDay: string, columns: number) {
     var lastWeekend = new Date(lastDay);
     lastWeekend.setDate(lastWeekend.getDate() + (6 - lastWeekend.getDay()));
 
@@ -38,10 +65,11 @@ export default class GitHubCalendar extends React.Component {
     _endDate.add(1, 'days');
     _endDate.subtract(1, 'milliseconds');
 
-    var result = [];
+    var result: ({ value: number, date: Date } | null)[][] = [];
     for (var i = 0; i < columns; i++) {
       result[i] = [];
       for (var j = 0; j < 7; j++) {
+        // @ts-ignore
         var date = new Date(lastWeekend);
         date.setDate(date.getDate() - ((columns - i - 1) * 7 + (6 - j)));
 
@@ -90,7 +118,7 @@ export default class GitHubCalendar extends React.Component {
         const dom = (
           <rect
             key={ 'panel_key_' + i + '_' + j }
-            x={ pos.x}
+            x={ pos.x }
             y={ pos.y }
             width={ this.panelSize }
             height={ this.panelSize }
@@ -107,7 +135,11 @@ export default class GitHubCalendar extends React.Component {
       const dom = (
         <text
           key={ 'week_key_' + i }
-          className='week'
+          style={{
+            fontSize: 9,
+            alignmentBaseline: 'central',
+            fill: '#AAA'
+          }}
           x={ textBasePos.x - this.panelSize / 2 - 2 }
           y={ textBasePos.y + this.panelSize / 2 }
           textAnchor={ 'middle' }>
@@ -120,17 +152,22 @@ export default class GitHubCalendar extends React.Component {
     // month texts
     var prevMonth = -1;
     for (var i = 0; i < columns; i++) {
-      if (contributions[i][0] === null) continue;
-      var month = contributions[i][0].date.getMonth();
+      const c = contributions[i][0];
+      if (c === null) continue;
+      var month = c.date.getMonth();
       if (month != prevMonth) {
         var textBasePos = this.getPanelPosition(i, 0);
         innerDom.push(<text
-          key={ 'month_key_' + i }
-          className='month'
-          x={ textBasePos.x + this.panelSize / 2 }
-          y={ textBasePos.y - this.panelSize / 2 - 2 }
-          textAnchor={ 'middle' }>
-          { this.props.monthNames[month] }
+            key={ 'month_key_' + i }
+            style={{
+              fontSize: 10,
+              alignmentBaseline: 'central',
+              fill: '#AAA'
+            }}
+            x={ textBasePos.x + this.panelSize / 2 }
+            y={ textBasePos.y - this.panelSize / 2 - 2 }
+            textAnchor={ 'middle' }>
+            { this.props.monthNames[month] }
           </text>
         );
       }
@@ -138,15 +175,21 @@ export default class GitHubCalendar extends React.Component {
     }
 
     return (
-      <div ref="calendarContainer" className="calendar-wrapper">
-        <svg className="calendar" height="110">
-          {innerDom}
+      <div ref="calendarContainer" style={ { width: "100%" } }>
+        <svg
+          style={ {
+            fontFamily: 'Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif',
+            width: '100%'
+          } }
+          height="110">
+          { innerDom }
         </svg>
       </div>
     );
   }
 
   updateSize() {
+    // @ts-ignore
     var width = this.refs.calendarContainer.offsetWidth;
     var visibleWeeks = Math.floor((width - this.weekLabelWidth) / 13);
     this.setState({
@@ -155,6 +198,7 @@ export default class GitHubCalendar extends React.Component {
   }
 };
 
+// @ts-ignore
 GitHubCalendar.defaultProps = {
   weekNames: ['', 'M', '', 'W', '', 'F', ''],
   monthNames: [
