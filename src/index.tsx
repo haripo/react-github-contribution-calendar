@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import Measure, { BoundingRect } from 'react-measure';
 
 interface Props {
@@ -8,6 +8,7 @@ interface Props {
   panelColors: string[]
   values: { [date: string]: number }
   until: string
+  dateFormat: string
 }
 
 interface State {
@@ -44,27 +45,18 @@ export default class GitHubCalendar extends React.Component<Props, State> {
   }
 
   makeCalendarData(history: { [k: string]: number }, lastDay: string, columns: number) {
-    var lastWeekend = new Date(lastDay);
-    lastWeekend.setDate(lastWeekend.getDate() + (6 - lastWeekend.getDay()));
+    const lastWeekend = dayjs(lastDay).endOf('week');
+    const endDate = dayjs(lastDay).endOf('day');
 
-    var _endDate = moment(lastDay, 'YYYY-MM-DD');
-    _endDate.add(1, 'days');
-    _endDate.subtract(1, 'milliseconds');
-
-    var result: ({ value: number, date: Date } | null)[][] = [];
+    var result: ({ value: number, month: number } | null)[][] = [];
     for (var i = 0; i < columns; i++) {
       result[i] = [];
       for (var j = 0; j < 7; j++) {
-        // @ts-ignore
-        var date = new Date(lastWeekend);
-        date.setDate(date.getDate() - ((columns - i - 1) * 7 + (6 - j)));
-
-        var momentDate = moment(date);
-        if (momentDate < _endDate) {
-          var key = momentDate.format('YYYY-MM-DD');
+        var date = lastWeekend.subtract((columns - i - 1) * 7 + (6 - j), 'day');
+        if (date <= endDate) {
           result[i][j] = {
-            value: history[key] || 0,
-            date: date
+            value: history[date.format(this.props.dateFormat)] || 0,
+            month: date.month()
           };
         } else {
           result[i][j] = null;
@@ -129,8 +121,7 @@ export default class GitHubCalendar extends React.Component<Props, State> {
     for (var i = 0; i < columns; i++) {
       const c = contributions[i][0];
       if (c === null) continue;
-      var month = c.date.getMonth();
-      if (month != prevMonth) {
+      if (c.month != prevMonth) {
         var textBasePos = this.getPanelPosition(i, 0);
         innerDom.push(<text
             key={ 'month_key_' + i }
@@ -142,11 +133,11 @@ export default class GitHubCalendar extends React.Component<Props, State> {
             x={ textBasePos.x + this.panelSize / 2 }
             y={ textBasePos.y - this.panelSize / 2 - 2 }
             textAnchor={ 'middle' }>
-            { this.props.monthNames[month] }
+            { this.props.monthNames[c.month] }
           </text>
         );
       }
-      prevMonth = month;
+      prevMonth = c.month;
     }
 
     return (
@@ -184,5 +175,6 @@ GitHubCalendar.defaultProps = {
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
   ],
-  panelColors: ['#EEE', '#DDD', '#AAA', '#444']
+  panelColors: ['#EEE', '#DDD', '#AAA', '#444'],
+  dateFormat: 'YYYY-MM-DD'
 };
