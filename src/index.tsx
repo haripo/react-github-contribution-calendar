@@ -45,8 +45,9 @@ export default class GitHubCalendar extends React.Component<Props, State> {
   }
 
   makeCalendarData(history: { [k: string]: number }, lastDay: string, columns: number) {
-    const lastWeekend = dayjs(lastDay).endOf('week');
-    const endDate = dayjs(lastDay).endOf('day');
+    const d = dayjs(lastDay, { format: this.props.dateFormat });
+    const lastWeekend = d.endOf('week');
+    const endDate = d.endOf('day');
 
     var result: ({ value: number, month: number } | null)[][] = [];
     for (var i = 0; i < columns; i++) {
