@@ -1,8 +1,6 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import moment from 'moment';
-
-// @ts-ignore
-import elementResizeDetectorMaker from "element-resize-detector";
+import Measure, { BoundingRect } from 'react-measure';
 
 interface Props {
   weekNames: string[]
@@ -23,14 +21,6 @@ export default class GitHubCalendar extends React.Component<Props, State> {
   panelSize: number;
   panelMargin: number;
 
-  elementResizeDetector: any;
-  resizeHandler: any;
-
-  // static state = {
-  //   columns: 53,
-  //   maxWidth: 53
-  // };
-
   constructor(props: any) {
     super(props);
 
@@ -38,10 +28,6 @@ export default class GitHubCalendar extends React.Component<Props, State> {
     this.weekLabelWidth = 15;
     this.panelSize = 11;
     this.panelMargin = 2;
-
-    // handle resize
-    this.elementResizeDetector = elementResizeDetectorMaker({ strategy: "scroll" });
-    this.resizeHandler = () => this.updateSize();
 
     this.state = {
       columns: 53,
@@ -89,24 +75,13 @@ export default class GitHubCalendar extends React.Component<Props, State> {
     return result;
   }
 
-  componentDidMount() {
-    this.elementResizeDetector.listenTo(
-      this.refs.calendarContainer,
-      this.resizeHandler);
-    this.updateSize();
-  }
-
-  componentWillUnmount() {
-    this.elementResizeDetector.uninstall(this.refs.calendarContainer);
-  }
-
   render() {
     const columns = this.state.columns;
     const values = this.props.values;
     const until = this.props.until;
 
     var contributions = this.makeCalendarData(values, until, columns);
-    var innerDom = [];
+    var innerDom: ReactElement[] = [];
 
     // panels
     for (var i = 0; i < columns; i++) {
@@ -135,11 +110,11 @@ export default class GitHubCalendar extends React.Component<Props, State> {
       const dom = (
         <text
           key={ 'week_key_' + i }
-          style={{
+          style={ {
             fontSize: 9,
             alignmentBaseline: 'central',
             fill: '#AAA'
-          }}
+          } }
           x={ textBasePos.x - this.panelSize / 2 - 2 }
           y={ textBasePos.y + this.panelSize / 2 }
           textAnchor={ 'middle' }>
@@ -159,11 +134,11 @@ export default class GitHubCalendar extends React.Component<Props, State> {
         var textBasePos = this.getPanelPosition(i, 0);
         innerDom.push(<text
             key={ 'month_key_' + i }
-            style={{
+            style={ {
               fontSize: 10,
               alignmentBaseline: 'central',
               fill: '#AAA'
-            }}
+            } }
             x={ textBasePos.x + this.panelSize / 2 }
             y={ textBasePos.y - this.panelSize / 2 - 2 }
             textAnchor={ 'middle' }>
@@ -175,23 +150,27 @@ export default class GitHubCalendar extends React.Component<Props, State> {
     }
 
     return (
-      <div ref="calendarContainer" style={ { width: "100%" } }>
-        <svg
-          style={ {
-            fontFamily: 'Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif',
-            width: '100%'
-          } }
-          height="110">
-          { innerDom }
-        </svg>
-      </div>
+      <Measure bounds onResize={ (rect) => this.updateSize(rect.bounds) }>
+        { ({ measureRef }: any) => (
+          <div ref={ measureRef } style={ { width: "100%" } }>
+            <svg
+              style={ {
+                fontFamily: 'Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif',
+                width: '100%'
+              } }
+              height="110">
+              { innerDom }
+            </svg>
+          </div>
+        ) }
+      </Measure>
     );
   }
 
-  updateSize() {
-    // @ts-ignore
-    var width = this.refs.calendarContainer.offsetWidth;
-    var visibleWeeks = Math.floor((width - this.weekLabelWidth) / 13);
+  updateSize(size?: BoundingRect) {
+    if (!size) return;
+
+    const visibleWeeks = Math.floor((size.width - this.weekLabelWidth) / 13);
     this.setState({
       columns: Math.min(visibleWeeks, this.state.maxWidth)
     });
