@@ -50,3 +50,29 @@ import Calendar from './../lib/index.js';
   ReactDOM.render(<Calendar values={values} until={until}
                             weekNames={weekNames} monthNames={monthNames}/>, elem);
 })();
+
+(() => {
+  var values = {}
+  var until = '2016-12-30';
+  var panelAttributes = { 'rx': 6, 'ry': 6 };
+  var weekLabelAttributes = {
+    'rotate': 20
+  };
+  var monthLabelAttributes = {
+    'style': {
+      'text-decoration': 'underline',
+      'font-size': 10,
+      'alignment-baseline': 'central',
+      'fill': '#AAA'
+    }
+  };
+
+  var elem = document.getElementById('example3');
+  ReactDOM.render(<Calendar
+    values={values}
+    until={until}
+    panelAttributes={panelAttributes}
+    weekLabelAttributes={weekLabelAttributes}
+    monthLabelAttributes={monthLabelAttributes}
+  />, elem);
+})();

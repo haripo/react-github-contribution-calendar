@@ -86,11 +86,11 @@
     '#AC5808',
     '#7B3F06'
   ];
-
-  var elem = document.getElementById('example1');
-  ReactDOM.render(&lt;Calendar
+            </code>
+            <code>
+  &lt;Calendar
     values={values} until={until}
-    weekNames={weekNames} monthNames={monthNames}/&gt;, elem);
+    weekNames={weekNames} monthNames={monthNames}/&gt;
             </code>
           </pre>
         </div>
@@ -111,15 +111,51 @@
     '1', '2', '3', '4', '5', '6',
     '7', '8', '9', '10', '11', '12'
   ];
-
-  ReactDOM.render(&lt;Calendar
+            </code>
+            <code>
+  &lt;Calendar
     values={values} until={until}
-    weekNames={weekNames} monthNames={monthNames}/&gt;, elem);
+    weekNames={weekNames} monthNames={monthNames}/&gt;
             </code>
           </pre>
         </div>
         <div class="render">
           <div id="example2"></div>
+        </div>
+      </div>
+      <h3>Change styles by overwriting SVG attributes</h3>
+      <div class="example">
+        <div class="code">
+          <pre>
+            <code>
+  var values = {}
+  var until = '2016-12-30';
+  var panelAttributes = { 'rx': 6, 'ry': 6 };
+  var weekLabelAttributes = {
+    'rotate': 20
+  };
+  var monthLabelAttributes = {
+    'style': {
+      'text-decoration': 'underline',
+      'font-size': 10,
+      'alignment-baseline': 'central',
+      'fill': '#AAA'
+    }
+  };
+            </code>
+            <code>
+  &lt;Calendar
+    values={values}
+    until={until}
+    panelAttributes={panelAttributes}
+    weekLabelAttributes={weekLabelAttributes}
+    monthLabelAttributes={monthLabelAttributes}
+  /&gt;
+            </code>
+          </pre>
+        </div>
+        <div class="render">
+          <div id="example3"></div>
         </div>
       </div>
     </section>

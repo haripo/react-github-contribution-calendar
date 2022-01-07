@@ -9,6 +9,9 @@ interface Props {
   values: { [date: string]: number }
   until: string
   dateFormat: string
+  weekLabelAttributes: any | undefined
+  monthLabelAttributes: any | undefined
+  panelAttributes: any | undefined
 }
 
 interface State {
@@ -91,6 +94,7 @@ export default class GitHubCalendar extends React.Component<Props, State> {
             width={ this.panelSize }
             height={ this.panelSize }
             fill={ color }
+            { ...this.props.panelAttributes }
           />
         );
         innerDom.push(dom);
@@ -110,7 +114,9 @@ export default class GitHubCalendar extends React.Component<Props, State> {
           } }
           x={ textBasePos.x - this.panelSize / 2 - 2 }
           y={ textBasePos.y + this.panelSize / 2 }
-          textAnchor={ 'middle' }>
+          textAnchor={ 'middle' }
+          { ...this.props.weekLabelAttributes }
+        >
           { this.props.weekNames[i] }
         </text>
       );
@@ -137,7 +143,9 @@ export default class GitHubCalendar extends React.Component<Props, State> {
             } }
             x={ textBasePos.x + this.panelSize / 2 }
             y={ textBasePos.y - this.panelSize / 2 - 2 }
-            textAnchor={ 'middle' }>
+            textAnchor={ 'middle' }
+            { ...this.props.monthLabelAttributes }
+          >
             { this.props.monthNames[c.month] }
           </text>
         );
