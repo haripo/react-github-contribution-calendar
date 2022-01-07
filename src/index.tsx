@@ -122,6 +122,10 @@ export default class GitHubCalendar extends React.Component<Props, State> {
     for (var i = 0; i < columns; i++) {
       const c = contributions[i][0];
       if (c === null) continue;
+      if (columns > 1 && i == 0 && c.month != contributions[i + 1][0]?.month) {
+        // skip first month name to avoid text overlap
+        continue;
+      }
       if (c.month != prevMonth) {
         var textBasePos = this.getPanelPosition(i, 0);
         innerDom.push(<text
