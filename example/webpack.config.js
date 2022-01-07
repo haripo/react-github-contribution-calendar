@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'production',
   entry: './main.jsx',
   output: {
     filename: './bundle.js'
