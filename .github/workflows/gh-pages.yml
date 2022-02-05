@@ -17,7 +17,7 @@ jobs:
           node-version: 12.x
       - name: Npm install and build
         run: |
-          npm install
+          npm ci
           npm run build
         env:
           CI: true
