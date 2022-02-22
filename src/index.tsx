@@ -76,6 +76,11 @@ export default class GitHubCalendar extends React.Component<Props, State> {
     const values = this.props.values;
     const until = this.props.until;
 
+    // TODO: More sophisticated typing
+    if (this.props.panelColors == undefined || this.props.weekNames == undefined || this.props.monthNames == undefined) {
+      return;
+    }
+
     var contributions = this.makeCalendarData(values, until, columns);
     var innerDom: ReactElement[] = [];
 
