@@ -1,14 +1,14 @@
-import React, { ReactElement } from 'react';
 import dayjs from 'dayjs';
+import React, { ReactElement } from 'react';
 import Measure, { BoundingRect } from 'react-measure';
 
 interface Props {
-  weekNames: string[]
-  monthNames: string[]
-  panelColors: string[]
+  weekNames?: string[]
+  monthNames?: string[]
+  panelColors?: string[]
   values: { [date: string]: number }
   until: string
-  dateFormat: string
+  dateFormat?: string
   weekLabelAttributes: any | undefined
   monthLabelAttributes: any | undefined
   panelAttributes: any | undefined
