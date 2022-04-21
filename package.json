@@ -1,5 +1,5 @@
 {
-  "name": "@hexadeciman/react-github-contribution-calendar",
+  "name": "hexadeciman-react-github-contribution-calendar",
   "version": "2.1.2",
   "description": "React component for github-like calendar",
   "main": "./lib/index.js",
