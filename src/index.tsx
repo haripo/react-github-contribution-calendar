@@ -1,22 +1,27 @@
-import dayjs from 'dayjs';
-import React, { ReactElement } from 'react';
-import Measure, { BoundingRect } from 'react-measure';
+import dayjs from "dayjs";
+import React, { ReactElement } from "react";
+import Measure, { BoundingRect } from "react-measure";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 interface Props {
-  weekNames?: string[]
-  monthNames?: string[]
-  panelColors?: string[]
-  values: { [date: string]: number }
-  until: string
-  dateFormat?: string
-  weekLabelAttributes: any | undefined
-  monthLabelAttributes: any | undefined
-  panelAttributes: any | undefined
+  weekNames?: string[];
+  monthNames?: string[];
+  panelColors?: string[];
+  values: { [date: string]: number };
+  until: string;
+  dateFormat?: string;
+  weekLabelAttributes: any | undefined;
+  monthLabelAttributes: any | undefined;
+  panelAttributes: any | undefined;
+  tooltip?: boolean;
+  tooltipStyles?: any;
+  tooltipItemText?: string;
 }
 
 interface State {
-  columns: number
-  maxWidth: number
+  columns: number;
+  maxWidth: number;
 }
 
 export default class GitHubCalendar extends React.Component<Props, State> {
@@ -35,32 +40,38 @@ export default class GitHubCalendar extends React.Component<Props, State> {
 
     this.state = {
       columns: 53,
-      maxWidth: 53
-    }
+      maxWidth: 53,
+    };
   }
 
   getPanelPosition(row: number, col: number) {
     const bounds = this.panelSize + this.panelMargin;
     return {
       x: this.weekLabelWidth + bounds * row,
-      y: this.monthLabelHeight + bounds * col
+      y: this.monthLabelHeight + bounds * col,
     };
   }
 
-  makeCalendarData(history: { [k: string]: number }, lastDay: string, columns: number) {
+  makeCalendarData(
+    history: { [k: string]: number },
+    lastDay: string,
+    columns: number
+  ) {
     const d = dayjs(lastDay, { format: this.props.dateFormat });
-    const lastWeekend = d.endOf('week');
-    const endDate = d.endOf('day');
+    const lastWeekend = d.endOf("week");
+    const endDate = d.endOf("day");
 
-    var result: ({ value: number, month: number } | null)[][] = [];
+    var result: ({ value: number; date: string; month: number } | null)[][] =
+      [];
     for (var i = 0; i < columns; i++) {
       result[i] = [];
       for (var j = 0; j < 7; j++) {
-        var date = lastWeekend.subtract((columns - i - 1) * 7 + (6 - j), 'day');
+        var date = lastWeekend.subtract((columns - i - 1) * 7 + (6 - j), "day");
         if (date <= endDate) {
           result[i][j] = {
             value: history[date.format(this.props.dateFormat)] || 0,
-            month: date.month()
+            date: date.format("DD-MM-YYYY"),
+            month: date.month(),
           };
         } else {
           result[i][j] = null;
@@ -77,34 +88,42 @@ export default class GitHubCalendar extends React.Component<Props, State> {
     const until = this.props.until;
 
     // TODO: More sophisticated typing
-    if (this.props.panelColors == undefined || this.props.weekNames == undefined || this.props.monthNames == undefined) {
+    if (
+      this.props.panelColors == undefined ||
+      this.props.weekNames == undefined ||
+      this.props.monthNames == undefined
+    ) {
       return;
     }
 
     var contributions = this.makeCalendarData(values, until, columns);
     var innerDom: ReactElement[] = [];
-
     // panels
     for (var i = 0; i < columns; i++) {
       for (var j = 0; j < 7; j++) {
         var contribution = contributions[i][j];
         if (contribution === null) continue;
         const pos = this.getPanelPosition(i, j);
-        const numOfColors = this.props.panelColors.length
+        const numOfColors = this.props.panelColors.length;
         const color =
           contribution.value >= numOfColors
             ? this.props.panelColors[numOfColors - 1]
             : this.props.panelColors[contribution.value];
         const dom = (
-          <rect
-            key={ 'panel_key_' + i + '_' + j }
-            x={ pos.x }
-            y={ pos.y }
-            width={ this.panelSize }
-            height={ this.panelSize }
-            fill={ color }
-            { ...this.props.panelAttributes }
-          />
+          <>
+            <rect
+              data-tooltip-id={this.props.tooltip ? "my-tooltip" : "no-tooltip"}
+              data-tooltip-content={`${contribution.value} ${this.props.tooltipItemText} on ${contribution.date}`}
+              data-tooltip-place="top"
+              key={"panel_key_" + i + "_" + j}
+              x={pos.x}
+              y={pos.y}
+              width={this.panelSize}
+              height={this.panelSize}
+              fill={color}
+              {...this.props.panelAttributes}
+            />
+          </>
         );
         innerDom.push(dom);
       }
@@ -115,18 +134,18 @@ export default class GitHubCalendar extends React.Component<Props, State> {
       const textBasePos = this.getPanelPosition(0, i);
       const dom = (
         <text
-          key={ 'week_key_' + i }
-          style={ {
+          key={"week_key_" + i}
+          style={{
             fontSize: 9,
-            alignmentBaseline: 'central',
-            fill: '#AAA'
-          } }
-          x={ textBasePos.x - this.panelSize / 2 - 2 }
-          y={ textBasePos.y + this.panelSize / 2 }
-          textAnchor={ 'middle' }
-          { ...this.props.weekLabelAttributes }
+            alignmentBaseline: "central",
+            fill: "#AAA",
+          }}
+          x={textBasePos.x - this.panelSize / 2 - 2}
+          y={textBasePos.y + this.panelSize / 2}
+          textAnchor={"middle"}
+          {...this.props.weekLabelAttributes}
         >
-          { this.props.weekNames[i] }
+          {this.props.weekNames[i]}
         </text>
       );
       innerDom.push(dom);
@@ -143,19 +162,20 @@ export default class GitHubCalendar extends React.Component<Props, State> {
       }
       if (c.month != prevMonth) {
         var textBasePos = this.getPanelPosition(i, 0);
-        innerDom.push(<text
-            key={ 'month_key_' + i }
-            style={ {
+        innerDom.push(
+          <text
+            key={"month_key_" + i}
+            style={{
               fontSize: 10,
-              alignmentBaseline: 'central',
-              fill: '#AAA'
-            } }
-            x={ textBasePos.x + this.panelSize / 2 }
-            y={ textBasePos.y - this.panelSize / 2 - 2 }
-            textAnchor={ 'middle' }
-            { ...this.props.monthLabelAttributes }
+              alignmentBaseline: "central",
+              fill: "#AAA",
+            }}
+            x={textBasePos.x + this.panelSize / 2}
+            y={textBasePos.y - this.panelSize / 2 - 2}
+            textAnchor={"middle"}
+            {...this.props.monthLabelAttributes}
           >
-            { this.props.monthNames[c.month] }
+            {this.props.monthNames[c.month]}
           </text>
         );
       }
@@ -163,20 +183,28 @@ export default class GitHubCalendar extends React.Component<Props, State> {
     }
 
     return (
-      <Measure bounds onResize={ (rect) => this.updateSize(rect.bounds) }>
-        { ({ measureRef }: any) => (
-          <div ref={ measureRef } style={ { width: "100%" } }>
-            <svg
-              style={ {
-                fontFamily: 'Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif',
-                width: '100%'
-              } }
-              height="110">
-              { innerDom }
-            </svg>
-          </div>
-        ) }
-      </Measure>
+      <>
+        <Measure bounds onResize={(rect) => this.updateSize(rect.bounds)}>
+          {({ measureRef }: any) => (
+            <div ref={measureRef} style={{ width: "100%" }}>
+              <svg
+                style={{
+                  fontFamily:
+                    "Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif",
+                  width: "100%",
+                }}
+                height="110"
+              >
+                {innerDom}
+              </svg>
+              <Tooltip
+                id="my-tooltip"
+                style={{ backgroundColor: "#777", ...this.props.tooltipStyles }}
+              />
+            </div>
+          )}
+        </Measure>
+      </>
     );
   }
 
@@ -185,18 +213,31 @@ export default class GitHubCalendar extends React.Component<Props, State> {
 
     const visibleWeeks = Math.floor((size.width - this.weekLabelWidth) / 13);
     this.setState({
-      columns: Math.min(visibleWeeks, this.state.maxWidth)
+      columns: Math.min(visibleWeeks, this.state.maxWidth),
     });
   }
-};
+}
 
 // @ts-ignore
 GitHubCalendar.defaultProps = {
-  weekNames: ['', 'M', '', 'W', '', 'F', ''],
+  weekNames: ["", "M", "", "W", "", "F", ""],
   monthNames: [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ],
-  panelColors: ['#EEE', '#DDD', '#AAA', '#444'],
-  dateFormat: 'YYYY-MM-DD'
+  panelColors: ["#EEE", "#DDD", "#AAA", "#444"],
+  dateFormat: "YYYY-MM-DD",
+  tooltip: false,
+  tooltipItemText: "items",
+  tooltipStyles: {},
 };

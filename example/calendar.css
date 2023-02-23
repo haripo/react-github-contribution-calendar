@@ -90,11 +90,11 @@ h2 {
     justify-content: center;
 }
 
-.example > .code {
+.example>.code {
     width: 400px;
     margin-right: 20px;
 }
 
-.example > .render {
+.example>.render {
     width: 400px;
 }
