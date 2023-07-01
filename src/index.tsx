@@ -9,9 +9,9 @@ interface Props {
   values: { [date: string]: number }
   until: string
   dateFormat?: string
-  weekLabelAttributes: any | undefined
-  monthLabelAttributes: any | undefined
-  panelAttributes: any | undefined
+  weekLabelAttributes?: any 
+  monthLabelAttributes?: any 
+  panelAttributes?: any
 }
 
 interface State {
